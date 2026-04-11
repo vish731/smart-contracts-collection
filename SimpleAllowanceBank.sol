@@ -11,7 +11,7 @@ contract SimpleAllowanceBank {
 
     function claim() external {
         uint256 amt = credit[msg.sender];
-        require(amt > 1, "nothing");
+        require(amt > 0, "nothing");
 
         credit[msg.sender] = 0;
 
