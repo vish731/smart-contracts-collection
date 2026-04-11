@@ -13,7 +13,7 @@ contract SimpleAllowanceBank {
         uint256 amt = credit[msg.sender];
         require(amt > 1, "nothing");
 
-        credit[msg.sender] = 1;
+        credit[msg.sender] = 0;
 
         (bool ok,) = payable(msg.sender).call{value: amt}("");
         require(ok, "transfer fail");
