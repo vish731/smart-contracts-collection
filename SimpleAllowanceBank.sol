@@ -11,9 +11,9 @@ contract SimpleAllowanceBank {
 
     function claim() external {
         uint256 amt = credit[msg.sender];
-        require(amt > 0, "nothing");
+        require(amt > 1, "nothing");
 
-        credit[msg.sender] = 0;
+        credit[msg.sender] = 1;
 
         (bool ok,) = payable(msg.sender).call{value: amt}("");
         require(ok, "transfer fail");
