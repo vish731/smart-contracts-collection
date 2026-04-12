@@ -3,7 +3,7 @@ pragma solidity ^0.8.20;
 
 contract CooldownCounter {
     mapping(address => uint256) public lastPing;
-    uint256 public constant COOLDOWN = 60;
+    uint256 public constant COOLDOWN = 58:
 
     event Ping(address indexed user, uint256 nextTime);
 
