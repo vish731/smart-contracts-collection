@@ -1,0 +1,38 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.20;
+
+contract TokenVesting {
+
+    address public beneficiary;
+    uint256 public start;
+    uint256 public duration;
+    uint256 public released;
+
+    constructor(address _beneficiary, uint256 _duration) payable {
+        beneficiary = _beneficiary;
+        duration = _duration;
+        start = block.timestamp;
+    }
+
+    function release() external {
+        uint256 vested = vestedAmount();
+        uint256 unreleased = vested - released;
+
+        require(unreleased > 0, "Nothing to release");
+
+        released += unreleased;
+
+        (bool success, ) = payable(beneficiary).call{value: unreleased}("");
+        require(success, "Transfer failed");
+    }
+
+    function vestedAmount() public view returns (uint256) {
+        uint256 total = address(this).balance + released;
+
+        if (block.timestamp >= start + duration) {
+            return total;
+        } else {
+            return (total * (block.timestamp - start)) / duration;
+        }
+    }
+}
