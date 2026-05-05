@@ -1,0 +1,28 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.20;
+
+contract MerkleAirdrop {
+
+    bytes32 public root;
+    mapping(address => bool) public claimed;
+
+    constructor(bytes32 _root) {
+        root = _root;
+    }
+
+    function claim(bytes32[] calldata proof, bytes32 leaf) external {
+        require(!claimed[msg.sender], "Already claimed");
+
+        bytes32 hash = leaf;
+
+        for (uint i = 0; i < proof.length; i++) {
+            bytes32 p = proof[i];
+            hash = hash < p ? keccak256(abi.encodePacked(hash, p)) : keccak256(abi.encodePacked(p, hash));
+        }
+
+        require(hash == root, "Invalid proof");
+
+        claimed[msg.sender] = true;
+        // token transfer logic yahan add hota hai
+    }
+}
