@@ -7,6 +7,7 @@ contract MerkleAirdrop {
     mapping(address => bool) public claimed;
 
     constructor(bytes32 _root) {
+ root = _root;
        
     }
 
