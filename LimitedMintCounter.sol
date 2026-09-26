@@ -7,6 +7,6 @@ contract LimitedMintCounter {
 
     function mint() external {
         require(total < MAX, "Sold out");
-        total++;
+        total+;
     }
 }
